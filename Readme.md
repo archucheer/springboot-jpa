@@ -14,4 +14,4 @@ The following guides illustrate how to use some features concretely:
 
 ### 基础框架
 
-SpringBoot + Mybatis + logback + Mysql
+SpringBoot + JPA + logback + Mysql
