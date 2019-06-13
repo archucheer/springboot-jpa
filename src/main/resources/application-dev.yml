@@ -1,0 +1,106 @@
+platform:
+  id: 1
+  name: 示例
+
+server:
+  port: 8881
+  id: 1
+  name: 示例服务
+spring:
+  application:
+    name: BaseFrameH
+  devtools:
+    livereload:
+      enabled: false #是否支持livereload
+      port: 35729
+    restart:
+      enabled: false #是否支持热部署
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    #基本属性
+    #    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:mysql://192.168.10.43:3306/KSP?characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8
+    #    url: jdbc:sqlserver://192.168.10.170\SQLExpress;DatabaseName=SEAL
+    username: KSP
+    password: KSP
+    druid:
+      #配置初始化大小/最小/最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      #获取连接等待超时时间
+      max-wait: 60000
+      #间隔多久进行一次检测，检测需要关闭的空闲连接
+      time-between-eviction-runs-millis: 60000
+      #一个连接在池中最小生存的时间
+      min-evictable-idle-time-millis: 300000
+      validation-query: SELECT 'x'
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      #监控统计拦截的filters
+      filters: stat,wall
+      logSlowSql: true
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      pool-prepared-statements: false
+      max-pool-prepared-statement-per-connection-size: 20
+  servlet:
+    multipart:
+      max-file-size: 1MB #最大文件大小。值可以使用后缀“MB”或“KB”。指示兆字节或千字节大小。
+      max-request-size: 12MB # 最大请求大小可以是mb也可以是kb
+
+
+  #redis配置
+  redis:
+    database: 6 #  数据库索引
+    host: 192.168.10.42 #    服务器地址
+    port: 6379  #    服务器连接端口
+    #    password: 123456   #    密码
+    jedis:
+      pool: #    链接池
+        max-active: 8 #    最大连接数（负值表示没有限制）
+        max-wait: 1ms #      最大阻塞等待时间（负值表示没有限制）
+        max-idle: 8 #      最大空闲链接
+        min-idle: 0  #      最小空闲链接
+    timeout: 5000ms #    链接超时时间（毫秒）
+
+
+
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true 
+        format_sql: true
+        use_sql_comments: true
+
+
+
+  # HttpClient 连接池配置
+http-pool:
+  max-total: 200
+  default-max-per-route: 100
+  connect-timeout: 5000
+  connection-request-timeout: 1000
+  socket-timeout: 65000
+  validate-after-inactivity: 2000
+
+
+management: #暴露监控
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+      cors:
+        allowed-origins: "*"
+        allowed-methods: "*"
+
+
+# 分页插件配置
+pagehelper:
+  helperDialect: mysql
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  reasonable: true
